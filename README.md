@@ -27,6 +27,8 @@ source for this stuff:
 * [`mirror-debugger.js`][mirror-debugger.js]
 * [mjsunit test cases][]
 
+Note that a **lot** of the text here comes directly from `debug-debugger.js`.
+
 Note that I'm going to be skipping two parts of the Debug object for now:
 
 * `TestApi`
@@ -141,24 +143,51 @@ method `breakLocations(a,b)`
 --------------------------------------------------------------------------------
 
 
-method `findScript(a)`
+method `findScript(aString | aFunction | aRegExp)`
 --------------------------------------------------------------------------------
 
+Returns a `Script` object.
 
-method `scriptSource(a)`
+If the parameter is a function, the return value
+is the script in which the function is defined.
+
+If the parameter is a string,
+the return value is the script for which the script name has that string
+value.  
+
+If it is a regexp and there is a unique script whose name matches
+we return that, otherwise undefined.
+
+
+method `scriptSource(String | Function)`
 --------------------------------------------------------------------------------
 
+Returns the script source.
 
-method `source(a)`
+If the parameter is a function the return value
+is the script source for the script in which the function is defined.
+
+If the
+parameter is a string the return value is the script for which the script
+name has that string value.
+
+
+method `source(aFunction)`
 --------------------------------------------------------------------------------
 
+Returns the source of a function.
 
-method `disassemble(a)`
+
+method `disassemble(aFunction)`
 --------------------------------------------------------------------------------
 
+Returns the disassembly of a function.
 
-method `disassembleConstructor(a)`
+
+method `disassembleConstructor(aFunction)`
 --------------------------------------------------------------------------------
+
+Returns the disassembly of a constructor.
 
 
 method `ExecuteInDebugContext(a,b)`
@@ -296,13 +325,47 @@ method `showBreakPoints(a,b,c)`
 method `scripts()`
 --------------------------------------------------------------------------------
 
+Returns an array of `Script` objects
 
 method `debuggerFlags()`
 --------------------------------------------------------------------------------
 
+Returns an object with the following properties:
+
+* `breakPointsActive`
+* `breakOnCaughtException`
+* `breakOnUncaughtException`
+
+Each of these properties is an object with a `getValue()` and `setValue()`
+method, which get and set the boolean value of the property.
+
+
 
 method `MakeMirror(a,b)`
 --------------------------------------------------------------------------------
+
+
+
+
+object `Script`
+================================================================================
+
+A `Script` object has the following properties:
+
+* `id` - Number
+* `name` - String
+* `source` - String
+* `type` - value of `Debug.ScriptType`
+* `compilation_type` - value of `Debug.ScriptCompilationType`
+* `column_offset` - Number
+* `line_offset` - Number
+* `line_ends` - array of Number
+* `context_data` - ???
+* `eval_from_script` - ???
+* `eval_from_script_position` - ???
+* `eval_from_function_name` - ???
+* `source_url` - ???
+* `source_mapping_url` - ???
 
 
 object `ExecState`
