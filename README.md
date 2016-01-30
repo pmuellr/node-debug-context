@@ -10,12 +10,15 @@ the V8 debug object*", using the following snippet:
     var vm = require("vm")
 
     var Debug = vm.runInDebugContext("Debug")
+    Debug.setListener(_=>_)
     Debug.scripts().forEach(function(script) {
       console.log(script.name)
     })
 
 This code snippet should list all the "scripts" V8 has loaded.  Try it, there
 are **TONS** of them.
+
+The debug context gets autocleared after the end of the vm.runInDebugContext() line.  To make things work, we need to keep the context active somehow; in this case, by doing a `Debug.setListener()`. 
 
 So, what else can you do with this thing.  That's what I'm going to find out.
 
